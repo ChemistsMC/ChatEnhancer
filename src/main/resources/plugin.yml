@@ -1,0 +1,4 @@
+main: me.ebonjaeger.chatenhancer.ChatEnhancer
+version: maven-version
+name: ChatEnhancer
+author: EbonJaeger
