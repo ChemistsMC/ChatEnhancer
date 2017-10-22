@@ -19,12 +19,18 @@ class ChatListener : Listener
         if (message.contains('@'))
         {
             val startIndex = message.indexOf('@') + 1
-            var endIndex = message.lastIndex
-            (startIndex..message.length)
-                    .filter { message[it] == ' ' }
-                    .forEach { endIndex = it }
+            var endIndex = message.length
 
-            val word = message.substring(startIndex, endIndex + 1)
+            for (i in startIndex..message.lastIndex)
+            {
+                if (message[i] == ' ')
+                {
+                    endIndex = i
+                    break
+                }
+            }
+
+            val word = message.substring(startIndex, endIndex)
 
             var player: Player?
             player = null
@@ -39,7 +45,7 @@ class ChatListener : Listener
 
             // Message contains an @-mention
             event.recipients.remove(player)
-            player?.sendMessage("" + ChatColor.BOLD + ChatColor.YELLOW + message)
+            player?.sendMessage(event.player.displayName + ": " + ChatColor.YELLOW + ChatColor.BOLD + message)
             player?.playSound(player?.location, Sound.BLOCK_NOTE_CHIME, 1F, 1F)
         }
     }
