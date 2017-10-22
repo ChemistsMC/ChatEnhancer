@@ -1,6 +1,8 @@
 package me.ebonjaeger.chatenhancer.listeners
 
 import org.bukkit.Bukkit
+import org.bukkit.ChatColor
+import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -37,7 +39,8 @@ class ChatListener : Listener
 
             // Message contains an @-mention
             event.recipients.remove(player)
-            player?.sendMessage("")
+            player?.sendMessage("" + ChatColor.BOLD + ChatColor.YELLOW + message)
+            player?.playSound(player?.location, Sound.BLOCK_NOTE_CHIME, 1F, 1F)
         }
     }
 }
