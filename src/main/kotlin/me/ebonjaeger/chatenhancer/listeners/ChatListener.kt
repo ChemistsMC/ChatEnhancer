@@ -18,32 +18,33 @@ class ChatListener : Listener
         val message = event.message
         if (message.contains('@'))
         {
-            val startIndex = message.indexOf('@') + 1
-            var endIndex = message.length
+            // Split the message into words, and add any word starting with
+            // an '@' symbol to a new Set
+            val words = mutableSetOf<String>()
+            message.split(' ')
+                    .filter { it.startsWith('@') }
+                    .forEach { words.add(it.substring(1).trim()) }
 
-            for (i in startIndex..message.lastIndex)
-            {
-                if (message[i] == ' ')
-                {
-                    endIndex = i
-                    break
-                }
+            // Iterate through all online players, and check if their name is mentioned.
+            // If mentioned, add them to a Set.
+            val players = mutableSetOf<Player>()
+            Bukkit.getServer().onlinePlayers.forEach { player ->
+                words.filter { player.name.equals(it, true) || player.name.startsWith(it, true) }
+                        .forEach { players.add(player) }
             }
 
-            val word = message.substring(startIndex, endIndex)
-
-            val player: Player?
-            player = Bukkit.getServer().onlinePlayers.firstOrNull { it.name.equals(word, true) || it.name.startsWith(word, true) }
-
-            if (player == null)
+            if (players.isEmpty())
             {
                 return
             }
 
             // Message contains an @-mention
-            event.recipients.remove(player)
-            player.sendMessage(event.player.displayName + ": " + ChatColor.YELLOW + ChatColor.BOLD + message)
-            player.playSound(player.location, Sound.BLOCK_NOTE_CHIME, 1F, 1F)
+            event.recipients.removeAll(players)
+            for (player in players)
+            {
+                player.sendMessage(event.player.displayName + ": " + ChatColor.YELLOW + ChatColor.BOLD + message)
+                player.playSound(player.location, Sound.BLOCK_NOTE_CHIME, 1F, 1F)
+            }
         }
     }
 }
