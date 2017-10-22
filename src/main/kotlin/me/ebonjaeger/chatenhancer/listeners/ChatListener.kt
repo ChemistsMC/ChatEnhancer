@@ -32,11 +32,8 @@ class ChatListener : Listener
 
             val word = message.substring(startIndex, endIndex)
 
-            var player: Player?
-            player = null
-            Bukkit.getServer().onlinePlayers
-                    .filter { it.name == word }
-                    .forEach { player = it }
+            val player: Player?
+            player = Bukkit.getServer().onlinePlayers.firstOrNull { it.name.equals(word, true) || it.name.startsWith(word, true) }
 
             if (player == null)
             {
@@ -45,8 +42,8 @@ class ChatListener : Listener
 
             // Message contains an @-mention
             event.recipients.remove(player)
-            player?.sendMessage(event.player.displayName + ": " + ChatColor.YELLOW + ChatColor.BOLD + message)
-            player?.playSound(player?.location, Sound.BLOCK_NOTE_CHIME, 1F, 1F)
+            player.sendMessage(event.player.displayName + ": " + ChatColor.YELLOW + ChatColor.BOLD + message)
+            player.playSound(player.location, Sound.BLOCK_NOTE_CHIME, 1F, 1F)
         }
     }
 }
