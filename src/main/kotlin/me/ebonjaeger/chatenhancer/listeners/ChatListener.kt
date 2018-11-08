@@ -43,7 +43,7 @@ class ChatListener : Listener
             for (player in players)
             {
                 player.sendMessage(event.player.displayName + ": " + ChatColor.YELLOW + ChatColor.BOLD + message)
-                player.playSound(player.location, Sound.BLOCK_NOTE_CHIME, 1F, 1F)
+                player.playSound(player.location, Sound.BLOCK_NOTE_BLOCK_CHIME, 1F, 1F)
             }
         }
     }

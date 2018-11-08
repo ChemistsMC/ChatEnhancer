@@ -31,7 +31,7 @@
         <bukkitplugin.authors>EbonJaeger</bukkitplugin.authors>
 
         <!-- Change Bukkit Version HERE! -->
-        <bukkit.version>1.12-R0.1-SNAPSHOT</bukkit.version>
+        <bukkit.version>1.13.2-R0.1-SNAPSHOT</bukkit.version>
     </properties>
 
     <licenses>
@@ -44,8 +44,8 @@
 
     <repositories>
         <repository>
-            <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
+            <id>papermc</id>
+            <url>https://papermc.io/repo/repository/maven-public/</url>
         </repository>
     </repositories>
 
@@ -59,8 +59,8 @@
 
         <!-- Spigot -->
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
+            <groupId>com.destroystokyo.paper</groupId>
+            <artifactId>paper-api</artifactId>
             <version>${bukkit.version}</version>
             <scope>provided</scope>
             <exclusions>
