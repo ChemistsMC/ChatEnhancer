@@ -41,8 +41,7 @@ class ChatListener(private val slapCommand: SlapCommand) : Listener {
             event.recipients.remove(sender)
 
             // Highlight the mention to send to the sender
-            val replacedMessage = message.replace("@$mention",
-                "${ChatColor.YELLOW}${ChatColor.BOLD}@$mention${ChatColor.RESET}")
+            val replacedMessage = message.replace("@$mention", "${ChatColor.YELLOW}${ChatColor.BOLD}@$mention${ChatColor.RESET}")
 
             // Send messages and play sound for the target
             sender.sendMessage("${sender.displayName}: $replacedMessage")
