@@ -93,6 +93,7 @@
             <groupId>com.github.seeseemelk</groupId>
             <artifactId>MockBukkit</artifactId>
             <version>dffbb34</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
