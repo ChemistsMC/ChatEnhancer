@@ -7,6 +7,6 @@ import org.bukkit.plugin.java.JavaPlugin
 class ChatEnhancer : JavaPlugin() {
 
     override fun onEnable() {
-        server.pluginManager.registerEvents(ChatListener(SlapCommand()), this)
+        server.pluginManager.registerEvents(ChatListener(SlapCommand(this)), this)
     }
 }

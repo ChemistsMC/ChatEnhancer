@@ -90,6 +90,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>io.mockk</groupId>
+            <artifactId>mockk</artifactId>
+            <version>1.8.13</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>com.github.seeseemelk</groupId>
             <artifactId>MockBukkit</artifactId>
             <version>dffbb34</version>

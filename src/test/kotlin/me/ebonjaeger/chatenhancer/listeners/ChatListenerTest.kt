@@ -7,6 +7,8 @@ import com.google.common.collect.Sets
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.nhaarman.mockitokotlin2.verify
+import io.mockk.mockkClass
+import me.ebonjaeger.chatenhancer.ChatEnhancer
 import me.ebonjaeger.chatenhancer.functions.SlapCommand
 import org.bukkit.ChatColor
 import org.bukkit.Sound
@@ -15,6 +17,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.mockito.Mockito.mock
 import java.util.*
 
 /**
@@ -22,7 +25,9 @@ import java.util.*
  */
 class ChatListenerTest {
 
-    private val listener = ChatListener(SlapCommand())
+    private val plugin = mockkClass(ChatEnhancer::class)
+
+    private val listener = ChatListener(SlapCommand(plugin))
 
     private val server = MockBukkit.mock()
 

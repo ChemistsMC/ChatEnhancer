@@ -1,10 +1,11 @@
 package me.ebonjaeger.chatenhancer.functions
 
+import me.ebonjaeger.chatenhancer.ChatEnhancer
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 
-class SlapCommand {
+class SlapCommand(private val plugin: ChatEnhancer) {
 
     private val SLAP_MESSAGES = arrayOf(
         "Annihilates %USER.",
@@ -53,7 +54,11 @@ class SlapCommand {
         }
 
         // Not self-harm, get a random slap message
-        val slap = SLAP_MESSAGES.random().replace("%USER", name)
-        Bukkit.broadcastMessage("${ChatColor.GREEN}ChatBot: ${ChatColor.GRAY}$slap")
+        val slap = SLAP_MESSAGES.random().replace("%USER", "${ChatColor.WHITE}${ChatColor.BOLD}$name${ChatColor.GRAY}")
+
+        // Delay the sending else the message is sent *before* the player's chat message
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, {
+            Bukkit.broadcastMessage("${ChatColor.GREEN}ChatBot: ${ChatColor.GRAY}$slap")
+        }, 2L)
     }
 }
