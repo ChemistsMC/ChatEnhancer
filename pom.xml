@@ -6,7 +6,7 @@
 
     <groupId>me.ebonjaeger</groupId>
     <artifactId>chatenhancer</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
 
     <name>ChatEnhancer</name>
     <description>Various additions to chatting.</description>
