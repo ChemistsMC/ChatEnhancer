@@ -25,28 +25,35 @@ class ChatListener(private val slapCommand: SlapCommand) : Listener {
             .forEach { word -> words.add(word.trim()) }
 
         if (message.contains('@')) { // Message possibly contains a mention
-            val mention = words.first { word -> word.startsWith('@') }.substring(1)
+            // Get all of the mentions in the message
+            val mentions = words
+                .filter { it.startsWith('@') } // If the word starts with an '@' char
+                .map { it.substring(1) } // Get the word minus the '@'
+                .toSet()
 
-            val players = Bukkit.matchPlayer(mention)
-
-            if (players.size != 1) { // More than one player matches (or none)
-                return // Can't know which one was wanted, so do nothing
-            }
-
-            val target = players[0]
             val sender = event.player
+            val targets = mentions
+                .map { mention -> Bukkit.matchPlayer(mention) } // For each mention, get all matching players
+                .filter { matches -> matches.size == 1 } // Only if one player is matched
+                .map { matches -> matches[0] } // Add the match to the Set
+                .toSet()
 
-            // Remove the sender and target so they don't get the original message like everyone else
-            event.recipients.remove(target)
+            // Remove the sender and targets so they don't get the original message like everyone else
+            event.recipients.removeAll(targets)
             event.recipients.remove(sender)
 
-            // Highlight the mention to send to the sender
-            val replacedMessage = message.replace("@$mention", "${ChatColor.YELLOW}${ChatColor.BOLD}@$mention${ChatColor.RESET}")
+            // Highlight the mentions to send to the sender
+            var replacedMessage = message
+            mentions.forEach { mention ->
+                replacedMessage = replacedMessage.replace("@$mention", "${ChatColor.YELLOW}${ChatColor.BOLD}@$mention${ChatColor.RESET}")
+            }
 
             // Send messages and play sound for the target
             sender.sendMessage("${sender.displayName}: $replacedMessage")
-            target.sendMessage("${sender.displayName}: ${ChatColor.YELLOW}${ChatColor.BOLD}$message")
-            target.playSound(target.location, Sound.BLOCK_NOTE_BLOCK_CHIME, 1F, 1F)
+            targets.forEach { target ->
+                target.sendMessage("${sender.displayName}: ${ChatColor.YELLOW}${ChatColor.BOLD}$message")
+                target.playSound(target.location, Sound.BLOCK_NOTE_BLOCK_CHIME, 1F, 1F)
+            }
         } else if (words.size == 2 && words[0].equals(".slap", true)) { // Slap command
             slapCommand.parse(event.player, words[1])
         }
