@@ -1,8 +1,8 @@
-main: me.ebonjaeger.chatenhancer.ChatEnhancer
+main: com.chemistsmc.chatenhancer.ChatEnhancer
 version: maven-version
 name: ChatEnhancer
 author: EbonJaeger
-api-version: 1.13
+api-version: '1.13'
 
 permissions:
   chatenhancer.slap.exempt:

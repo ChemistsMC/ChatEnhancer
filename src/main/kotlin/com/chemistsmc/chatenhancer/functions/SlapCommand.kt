@@ -1,11 +1,14 @@
-package me.ebonjaeger.chatenhancer.functions
+package com.chemistsmc.chatenhancer.functions
 
-import me.ebonjaeger.chatenhancer.ChatEnhancer
+import com.chemistsmc.chatenhancer.ChatEnhancer
+import com.chemistsmc.chatenhancer.ChatMessage
+import com.chemistsmc.chatenhancer.ChatModule
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
+import org.bukkit.event.player.AsyncPlayerChatEvent
 
-class SlapCommand(private val plugin: ChatEnhancer) {
+class SlapCommand(private val plugin: ChatEnhancer) : ChatModule {
 
     private val SLAP_MESSAGES = arrayOf(
         "Annihilates %USER.",
@@ -28,21 +31,29 @@ class SlapCommand(private val plugin: ChatEnhancer) {
      * Verbally slap a player.
      *
      * If the target is exempt, the sender will be the target instead. Self
-     * harming is not allowed, and has it's own special message.
+     * harming is not allowed, and has its own special message.
      *
      * @param sender The player sending the slap
-     * @param arg The target of the slap
+     * @param chatMessage The [ChatMessage] command
      */
-    fun parse(sender: Player, arg: String) {
-        val target = Bukkit.getPlayer(arg)
+    override fun parse(sender: Player, event: AsyncPlayerChatEvent, chatMessage: ChatMessage) {
+        if (chatMessage.command != "slap") { // Only parse slap commands
+            return
+        }
+
+        if (chatMessage.messageNoCmd.split(" ").size > 1) { // Only one argument  is allowed
+            return
+        }
+
+        val target = Bukkit.getPlayer(chatMessage.messageNoCmd)
 
         if (target == null) { // No valid player found
-            Bukkit.broadcastMessage("${ChatColor.GREEN}ChatBot: ${ChatColor.GRAY}$PLAYER_OFFLINE")
+            Bukkit.broadcastMessage(PLAYER_OFFLINE)
             return
         }
 
         if (target == sender) { // Self-harm
-            Bukkit.broadcastMessage("${ChatColor.GREEN}ChatBot: ${ChatColor.GRAY}$SELF_HARM")
+            Bukkit.broadcastMessage(SELF_HARM)
             return
         }
 
@@ -56,9 +67,10 @@ class SlapCommand(private val plugin: ChatEnhancer) {
         // Not self-harm, get a random slap message
         val slap = SLAP_MESSAGES.random().replace("%USER", "${ChatColor.WHITE}${ChatColor.BOLD}$name${ChatColor.GRAY}")
 
-        // Delay the sending else the message is sent *before* the player's chat message
-        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, {
-            Bukkit.broadcastMessage("${ChatColor.GREEN}ChatBot: ${ChatColor.GRAY}$slap")
-        }, 2L)
+        plugin.broadcastMessage(slap)
+    }
+
+    override fun isEnabled(): Boolean {
+        return true
     }
 }

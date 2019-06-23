@@ -1,15 +1,13 @@
-package me.ebonjaeger.chatenhancer.listeners
+package com.chemistsmc.chatenhancer.functions
 
 import be.seeseemelk.mockbukkit.MockBukkit
 import be.seeseemelk.mockbukkit.entity.PlayerMock
+import com.chemistsmc.chatenhancer.ChatMessage
 import com.google.common.base.Charsets
 import com.google.common.collect.Sets
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.nhaarman.mockitokotlin2.verify
-import io.mockk.mockkClass
-import me.ebonjaeger.chatenhancer.ChatEnhancer
-import me.ebonjaeger.chatenhancer.functions.SlapCommand
 import org.bukkit.ChatColor
 import org.bukkit.Sound
 import org.bukkit.entity.Player
@@ -17,17 +15,14 @@ import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito.mock
 import java.util.*
 
 /**
- * Tests for [ChatListener].
+ * Tests for [MentionPlayer].
  */
-class ChatListenerTest {
+class MentionFunctionTest {
 
-    private val plugin = mockkClass(ChatEnhancer::class)
-
-    private val listener = ChatListener(SlapCommand(plugin))
+    private val mentioner = MentionPlayer()
 
     private val server = MockBukkit.mock()
 
@@ -54,9 +49,10 @@ class ChatListenerTest {
         server.onlinePlayers.forEach { recipients.add(it as Player) }
 
         val event = AsyncPlayerChatEvent(true, sender, message, recipients)
+        val chatMessage = ChatMessage(sender.uniqueId, "", message, message)
 
         // when
-        listener.onPlayerChat(event)
+        mentioner.parse(sender, event, chatMessage)
 
         // then
         val expectedRecipients = recipients.minus(target).minus(sender).toMutableSet()
@@ -70,7 +66,7 @@ class ChatListenerTest {
          * Not implemented by MockBukkit at this time; will cause the test to be ignored.
          *
          * To properly test, comment out the lines with <code>playSound</code> both here and
-         * in the ChatListener class.
+         * in the MentionPlayer class.
          */
         verify(target).playSound(target.location, Sound.BLOCK_NOTE_BLOCK_CHIME, 1F, 1F)
     }
@@ -88,9 +84,10 @@ class ChatListenerTest {
         server.onlinePlayers.forEach { recipients.add(it as Player) }
 
         val event = AsyncPlayerChatEvent(true, sender, message, recipients)
+        val chatMessage = ChatMessage(sender.uniqueId, "", message, message)
 
         // when
-        listener.onPlayerChat(event)
+        mentioner.parse(sender, event, chatMessage)
 
         // then
         val expectedRecipients = recipients.minus(targets).toMutableSet()
@@ -106,7 +103,7 @@ class ChatListenerTest {
          * Not implemented by MockBukkit at this time; will cause the test to be ignored.
          *
          * To properly test, comment out the lines with <code>playSound</code> both here and
-         * in the ChatListener class.
+         * in the MentionPlayer class.
          */
         verify(target1).playSound(target1.location, Sound.BLOCK_NOTE_BLOCK_CHIME, 1F, 1F)
         verify(target2).playSound(target1.location, Sound.BLOCK_NOTE_BLOCK_CHIME, 1F, 1F)
