@@ -23,7 +23,13 @@ class ChatListener(private val modules: Set<ChatModule>) : Listener {
             ""
         }
 
-        val messageNoCmd = if (command.isNotEmpty()) event.message.replace(command, "").trim() else event.message
+        val messageNoCmd = if (command.isNotEmpty()) { // There is a command prefix to strip
+            val prefixEnd = event.message.indexOf(' ') + 1 // Get rid of the space
+            val toTrim = event.message.substring(0, prefixEnd)
+            event.message.replace(toTrim, "").trim()
+        } else { // No prefix, make it the full message
+            event.message
+        }
 
         val chatMessage = ChatMessage(event.player.uniqueId, command, event.message, messageNoCmd)
 

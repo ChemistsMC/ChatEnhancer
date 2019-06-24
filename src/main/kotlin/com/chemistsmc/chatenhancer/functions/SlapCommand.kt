@@ -48,12 +48,12 @@ class SlapCommand(private val plugin: ChatEnhancer) : ChatModule {
         val target = Bukkit.getPlayer(chatMessage.messageNoCmd)
 
         if (target == null) { // No valid player found
-            Bukkit.broadcastMessage(PLAYER_OFFLINE)
+            plugin.broadcastMessage(PLAYER_OFFLINE)
             return
         }
 
         if (target == sender) { // Self-harm
-            Bukkit.broadcastMessage(SELF_HARM)
+            plugin.broadcastMessage(SELF_HARM)
             return
         }
 
