@@ -29,13 +29,7 @@ class ReplacerCommand(private val plugin: ChatEnhancer) : ChatModule {
         }
 
         // Get the target
-        val name = if (chatMessage.messageNoCmd.startsWith("s/")) { // No name was specified, use the sender's
-            sender.name
-        } else { // Name was specified, so take the first word of the message
-            chatMessage.messageNoCmd.substringBefore(' ')
-        }
-
-        val target = Bukkit.getPlayer(name)
+        val target = getTarget(sender, chatMessage.messageNoCmd)
 
         if (target == null) { // No valid player found
             plugin.broadcastMessage(PLAYER_OFFLINE)
@@ -89,5 +83,21 @@ class ReplacerCommand(private val plugin: ChatEnhancer) : ChatModule {
         if (cachedMessages.size > cacheLimit) { // If we're above the cache limit...
             cachedMessages.removeAt(0)
         }
+    }
+
+    /**
+     * Get the target player for the replacement. Will return
+     * null if no matching player is found. If there is no name
+     * specified, the sender will be returned.
+     *
+     * @return The target of the command
+     */
+    private fun getTarget(sender: Player, message: String): Player? {
+        if (message.startsWith("s/")) {
+            return sender
+        }
+
+        val name = message.substringBefore(' ')
+        return Bukkit.getPlayer(name)
     }
 }
