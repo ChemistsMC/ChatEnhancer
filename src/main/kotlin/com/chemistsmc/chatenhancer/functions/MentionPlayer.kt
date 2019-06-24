@@ -8,7 +8,7 @@ import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.event.player.AsyncPlayerChatEvent
 
-class MentionPlayer() : ChatModule {
+class MentionPlayer : ChatModule {
 
     override fun parse(sender: Player, event: AsyncPlayerChatEvent, chatMessage: ChatMessage) {
         if (chatMessage.command != "") { // Ignore actual commands
@@ -33,9 +33,11 @@ class MentionPlayer() : ChatModule {
             .toSet()
 
         val targets = mentions
+            .asSequence()
             .map { mention -> Bukkit.matchPlayer(mention) } // For each mention, get all matching players
             .filter { matches -> matches.size == 1 } // Only if one player is matched
             .map { matches -> matches[0] } // Add the match to the Set
+            .filter { match -> match != sender } // Only add targets that aren't the sender
             .toSet()
 
         // Remove the sender and targets so they don't get the original message like everyone else
