@@ -35,4 +35,4 @@ ChatEnhancer is designed to be extended by other plugins without too much troubl
 ChatEnhancer is a Maven project, so to build simply clone the repo and run `mvn clean install`.
 
 ## License
-ChatEnhancer is licensed under the MIT license. See the `LISCENSE` file for details.
+ChatEnhancer is licensed under the MIT license. See the `LICENSE` file for details.
