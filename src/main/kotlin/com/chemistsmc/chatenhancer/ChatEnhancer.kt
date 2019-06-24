@@ -9,18 +9,26 @@ import org.bukkit.plugin.java.JavaPlugin
 
 class ChatEnhancer : JavaPlugin() {
 
-    private val chatModules = mutableSetOf<ChatModule>()
-    private val prefix = "${ChatColor.GREEN}ChatBot: ${ChatColor.GRAY}"
+    private val moduleManager = ModuleManager(this)
+    private val prefix = "${ChatColor.GREEN}ChatBot:${ChatColor.GRAY}"
 
     override fun onEnable() {
         // Create our default modules
-        chatModules.add(MentionPlayer())
-        chatModules.add(ReplacerCommand(this))
-        chatModules.add(SlapCommand(this))
+        moduleManager.loadModule(MentionPlayer())
+        moduleManager.loadModule(ReplacerCommand(this))
+        moduleManager.loadModule(SlapCommand(this))
 
         // Register our chat listener
-        server.pluginManager.registerEvents(ChatListener(chatModules), this)
+        server.pluginManager.registerEvents(ChatListener(this), this)
     }
+
+    /**
+     * Get the plugin's [ModuleManager]. This is exposed in case
+     * other plugins want to add their own [ChatModule]'s.
+     *
+     * @return The module manager
+     */
+    fun getModuleManager(): ModuleManager = moduleManager
 
     /**
      * Broadcast a message to everyone on the server.

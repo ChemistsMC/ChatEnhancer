@@ -1,14 +1,14 @@
 package com.chemistsmc.chatenhancer.listeners
 
+import com.chemistsmc.chatenhancer.ChatEnhancer
 import com.chemistsmc.chatenhancer.ChatMessage
-import com.chemistsmc.chatenhancer.ChatModule
 import com.chemistsmc.chatenhancer.functions.ReplacerCommand
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
 
-class ChatListener(private val modules: Set<ChatModule>) : Listener {
+class ChatListener(private val plugin: ChatEnhancer) : Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     fun onPlayerChat(event: AsyncPlayerChatEvent) {
@@ -33,7 +33,7 @@ class ChatListener(private val modules: Set<ChatModule>) : Listener {
 
         val chatMessage = ChatMessage(event.player.uniqueId, command, event.message, messageNoCmd)
 
-        for (module in modules) { // Iterate through all the modules
+        for (module in plugin.getModuleManager().getModules()) { // Iterate through all the moduleManager
             if (module is ReplacerCommand && module.isEnabled()) { // If it's the replacer command, add the message to its cache
                 module.addCachedMessage(chatMessage)
             }
