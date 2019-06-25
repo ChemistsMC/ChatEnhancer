@@ -1,0 +1,7 @@
+version: '2' # required to adjust maintainability checks
+
+excluded_patterns:
+  # Exclude settings objects
+  - 'src/main/kotlin/com/chemistsmc/chatenhancer/config/*Settings.kt'
+  # Don't check test classes
+  - 'src/test/kotlin/**/*Test.java'
