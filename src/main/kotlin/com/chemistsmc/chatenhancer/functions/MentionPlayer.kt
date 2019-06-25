@@ -2,13 +2,17 @@ package com.chemistsmc.chatenhancer.functions
 
 import com.chemistsmc.chatenhancer.ChatMessage
 import com.chemistsmc.chatenhancer.ChatModule
+import com.chemistsmc.chatenhancer.config.ModuleSettings
+import com.chemistsmc.chatenhancer.config.Settings
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.event.player.AsyncPlayerChatEvent
 
-class MentionPlayer : ChatModule {
+class MentionPlayer(private val settings: Settings) : ChatModule {
+
+    private val mentionsColor = ChatColor.translateAlternateColorCodes('&', settings.getProperty(ModuleSettings.MENTIONS_COLOR))
 
     override fun parse(sender: Player, event: AsyncPlayerChatEvent, chatMessage: ChatMessage) {
         if (chatMessage.command != "") { // Ignore actual commands
@@ -47,18 +51,18 @@ class MentionPlayer : ChatModule {
         // Highlight the mentions to send to the sender
         var replacedMessage = chatMessage.message
         mentions.forEach { mention ->
-            replacedMessage = replacedMessage.replace("@$mention", "${ChatColor.YELLOW}${ChatColor.BOLD}@$mention${ChatColor.RESET}")
+            replacedMessage = replacedMessage.replace("@$mention", "$mentionsColor@$mention${ChatColor.RESET}")
         }
 
         // Send messages and play sound for the target
         sender.sendMessage("${sender.displayName}: $replacedMessage")
         targets.forEach { target ->
-            target.sendMessage("${sender.displayName}: ${ChatColor.YELLOW}${ChatColor.BOLD}${chatMessage.message}")
+            target.sendMessage("${sender.displayName}: $mentionsColor${chatMessage.message}")
             target.playSound(target.location, Sound.BLOCK_NOTE_BLOCK_CHIME, 1F, 1F)
         }
     }
 
     override fun isEnabled(): Boolean {
-        return true
+        return settings.getProperty(ModuleSettings.MENTIONS_ENABLED)
     }
 }

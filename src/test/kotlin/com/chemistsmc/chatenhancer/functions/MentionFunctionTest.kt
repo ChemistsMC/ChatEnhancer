@@ -3,11 +3,15 @@ package com.chemistsmc.chatenhancer.functions
 import be.seeseemelk.mockbukkit.MockBukkit
 import be.seeseemelk.mockbukkit.entity.PlayerMock
 import com.chemistsmc.chatenhancer.ChatMessage
+import com.chemistsmc.chatenhancer.config.ModuleSettings
+import com.chemistsmc.chatenhancer.config.Settings
 import com.google.common.base.Charsets
 import com.google.common.collect.Sets
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.nhaarman.mockitokotlin2.verify
+import io.mockk.every
+import io.mockk.mockk
 import org.bukkit.ChatColor
 import org.bukkit.Sound
 import org.bukkit.entity.Player
@@ -21,8 +25,6 @@ import java.util.*
  * Tests for [MentionPlayer].
  */
 class MentionFunctionTest {
-
-    private val mentioner = MentionPlayer()
 
     private val server = MockBukkit.mock()
 
@@ -42,6 +44,10 @@ class MentionFunctionTest {
     @Test
     fun mentionPlayerCorrectly() {
         // given
+        val settings = mockk<Settings>()
+        every { settings.getProperty(ModuleSettings.MENTIONS_COLOR) } returns "&e&l"
+        val mentioner = MentionPlayer(settings)
+
         val message = "hey @Tom check this out!"
         val sender = server.getPlayer("Bob") as PlayerMock
         val target = server.getPlayer("Tom") as PlayerMock
@@ -74,6 +80,10 @@ class MentionFunctionTest {
     @Test
     fun mentionMultiplePlayerCorrectly() {
         // given
+        val settings = mockk<Settings>()
+        every { settings.getProperty(ModuleSettings.MENTIONS_COLOR) } returns "&e&l"
+        val mentioner = MentionPlayer(settings)
+
         val message = "hey @Tom and @ultr4 check this out!"
         val sender = server.getPlayer("Bob") as PlayerMock
         val target1 = server.getPlayer("Tom") as PlayerMock

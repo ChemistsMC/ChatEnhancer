@@ -1,22 +1,36 @@
 package com.chemistsmc.chatenhancer
 
+import com.chemistsmc.chatenhancer.config.PluginSettings
+import com.chemistsmc.chatenhancer.config.Settings
 import com.chemistsmc.chatenhancer.functions.MentionPlayer
 import com.chemistsmc.chatenhancer.functions.ReplacerCommand
 import com.chemistsmc.chatenhancer.functions.SlapCommand
 import com.chemistsmc.chatenhancer.listeners.ChatListener
 import org.bukkit.ChatColor
 import org.bukkit.plugin.java.JavaPlugin
+import java.io.File
+import java.nio.file.Files
 
 class ChatEnhancer : JavaPlugin() {
 
     private val moduleManager = ModuleManager(this)
-    private val prefix = "${ChatColor.GREEN}ChatBot:${ChatColor.GRAY}"
+    private var prefix = ""
 
     override fun onEnable() {
+        // Create config file it it hasn't yet been saved
+        if (!Files.exists(File(dataFolder, "config.yml").toPath())) {
+            saveResource("config.yml", false)
+        }
+
+        // Initialize our settings
+        val settings = Settings.create(File(dataFolder, "config.yml"))
+
+        prefix = ChatColor.translateAlternateColorCodes('&', settings.getProperty(PluginSettings.CHATBOT_PREFIX))
+
         // Create our default modules
-        moduleManager.loadModule(MentionPlayer())
-        moduleManager.loadModule(ReplacerCommand(this))
-        moduleManager.loadModule(SlapCommand(this))
+        moduleManager.loadModule(MentionPlayer(settings))
+        moduleManager.loadModule(ReplacerCommand(this, settings))
+        moduleManager.loadModule(SlapCommand(this, settings))
 
         // Register our chat listener
         server.pluginManager.registerEvents(ChatListener(this), this)

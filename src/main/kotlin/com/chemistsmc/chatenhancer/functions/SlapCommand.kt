@@ -3,12 +3,15 @@ package com.chemistsmc.chatenhancer.functions
 import com.chemistsmc.chatenhancer.ChatEnhancer
 import com.chemistsmc.chatenhancer.ChatMessage
 import com.chemistsmc.chatenhancer.ChatModule
+import com.chemistsmc.chatenhancer.config.ModuleSettings
+import com.chemistsmc.chatenhancer.config.Settings
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 import org.bukkit.event.player.AsyncPlayerChatEvent
 
-class SlapCommand(private val plugin: ChatEnhancer) : ChatModule {
+class SlapCommand(private val plugin: ChatEnhancer,
+                  private val settings: Settings) : ChatModule {
 
     private val SLAP_MESSAGES = arrayOf(
         "Annihilates %USER.",
@@ -71,6 +74,6 @@ class SlapCommand(private val plugin: ChatEnhancer) : ChatModule {
     }
 
     override fun isEnabled(): Boolean {
-        return true
+        return settings.getProperty(ModuleSettings.SLAPS_ENABLED)
     }
 }

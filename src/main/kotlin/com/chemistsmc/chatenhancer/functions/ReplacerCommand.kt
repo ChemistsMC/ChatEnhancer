@@ -3,6 +3,8 @@ package com.chemistsmc.chatenhancer.functions
 import com.chemistsmc.chatenhancer.ChatEnhancer
 import com.chemistsmc.chatenhancer.ChatMessage
 import com.chemistsmc.chatenhancer.ChatModule
+import com.chemistsmc.chatenhancer.config.ModuleSettings
+import com.chemistsmc.chatenhancer.config.Settings
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
@@ -16,7 +18,8 @@ import java.util.*
  *
  * @property plugin The main plugin class
  */
-class ReplacerCommand(private val plugin: ChatEnhancer) : ChatModule {
+class ReplacerCommand(private val plugin: ChatEnhancer,
+                      private val settings: Settings) : ChatModule {
 
     private val PLAYER_OFFLINE = "It appears that you are hallucinating. This user isn't online."
 
@@ -68,7 +71,7 @@ class ReplacerCommand(private val plugin: ChatEnhancer) : ChatModule {
     }
 
     override fun isEnabled(): Boolean {
-        return true
+        return settings.getProperty(ModuleSettings.REPLACER_ENABLED)
     }
 
     /**

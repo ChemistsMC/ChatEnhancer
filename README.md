@@ -12,6 +12,12 @@ Simple and extensible chat bot for Spigot/Paper Minecraft servers written in Kot
   - `.r [name] s/search/replace`
 - [x] Verbally slap other players (all in good fun, of course!)
   - `.slap Name`
+  
+#### Settings
+- [x] Ability to enable/disable each module
+- [x] Prefix used in messages from the ChatBot (its name)
+- [x] Colors used in messages from the ChatBot
+- [x] Color for mentions and highlighted messages
 
 ChatEnhancer is designed to be extended by other plugins without too much trouble. Parts of this plugin are inspired by the [Narwhal IRC bot](https://github.com/narwhalirc/narwhal/) by JoshStrobl (especially the slap command!).
 
@@ -25,11 +31,6 @@ ChatEnhancer is designed to be extended by other plugins without too much troubl
   - `.quote Name` adds the last thing that player said
 - [ ] Get and show a random quote from the database
   - `.quote`
-#### Settings
-- [ ] Ability to enable/disable each module
-- [ ] Prefix used in messages from the ChatBot (its name)
-- [ ] Colors used in messages from the ChatBot
-- [ ] Color for mentions and highlighted messages
   
 ## Building
 ChatEnhancer is a Maven project, so to build simply clone the repo and run `mvn clean install`.
