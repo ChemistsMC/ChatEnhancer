@@ -50,6 +50,7 @@ class ReplacerCommand(private val plugin: ChatEnhancer,
         val replaceWords = messageReplacement[1]
 
         synchronized(cachedMessages) {
+            // Synchronize on access since writes and reads to this are async
             for (cachedMessage in cachedMessages.reversed()) { // Look through all the cached messages from newest to oldest
                 if (target.uniqueId == cachedMessage.sender && chatMessage.message != cachedMessage.message) {
                     if (cachedMessage.message.contains(searchWords)) { // See if the cached message contains the search string
@@ -63,8 +64,9 @@ class ReplacerCommand(private val plugin: ChatEnhancer,
                         }
 
                         plugin.broadcastMessage(finalMessage)
-                        break
                     }
+
+                    break // Stop after finding the user's most recent message
                 }
             }
         }
