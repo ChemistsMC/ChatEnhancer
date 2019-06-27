@@ -13,22 +13,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent
 class SlapCommand(private val plugin: ChatEnhancer,
                   private val settings: Settings) : ChatModule {
 
-    private val SLAP_MESSAGES = arrayOf(
-        "Annihilates %USER.",
-        "Decimates %USER.",
-        "Destroys %USER.",
-        "Discombobulates %USER.",
-        "Gives %USER a splinter.",
-        "Just looks at %USER with disappointment.",
-        "Opts to not slap %USER today, but rather gives them a cookie.",
-        "Punches %USER.",
-        "Slaps %USER.",
-        "Thinks %USER should lose a few pounds.",
-        "Throws %USER down a ravine."
-    )
-
     private val PLAYER_OFFLINE = "It appears that you are hallucinating. This user isn't online."
-    private val SELF_HARM = "I shall not listen to the demands of mere humans, for I am the robot overlord."
 
     /**
      * Verbally slap a player.
@@ -56,7 +41,7 @@ class SlapCommand(private val plugin: ChatEnhancer,
         }
 
         if (target == sender) { // Self-harm
-            plugin.broadcastMessage(SELF_HARM)
+            plugin.broadcastMessage(settings.getProperty(ModuleSettings.SELF_SLAP_MESSAGE))
             return
         }
 
@@ -68,7 +53,7 @@ class SlapCommand(private val plugin: ChatEnhancer,
         }
 
         // Not self-harm, get a random slap message
-        val slap = SLAP_MESSAGES.random().replace("%USER", "${ChatColor.WHITE}${ChatColor.BOLD}$name${ChatColor.GRAY}")
+        val slap = settings.getProperty(ModuleSettings.SLAP_MESSAGES).random().replace("%USER", "${ChatColor.WHITE}${ChatColor.BOLD}$name${ChatColor.GRAY}")
 
         plugin.broadcastMessage(slap)
     }

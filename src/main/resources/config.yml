@@ -14,6 +14,22 @@ modules:
   replacer:
     # Enable or disable the text replacer module
     enabled: true
-  slaps:
+  slap:
     # Enable or disable the slapping module
     enabled: true
+    # List of messages for the slap command to pick from
+    # Use the '%USER' placeholder to insert the target's name
+    slap-messages:
+      - "Annihilates %USER."
+      - "Decimates %USER."
+      - "Destroys %USER."
+      - "Discombobulates %USER."
+      - "Gives %USER a splinter."
+      - "Just looks at %USER with disappointment."
+      - "Opts to not slap %USER today, but rather gives them a cookie."
+      - "Punches %USER."
+      - "Slaps %USER."
+      - "Thinks %USER should lose a few pounds."
+      - "Throws %USER down a ravine."
+    # Message to use when a player tries to slap themselves
+    self-slap-message: "I shall not listen to the demands of mere humans, for I am the robot overlord."

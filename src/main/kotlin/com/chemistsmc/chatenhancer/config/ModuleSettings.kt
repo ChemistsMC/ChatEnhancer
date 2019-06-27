@@ -5,6 +5,7 @@ import ch.jalu.configme.SettingsHolder
 import ch.jalu.configme.configurationdata.CommentsConfiguration
 import ch.jalu.configme.properties.Property
 import ch.jalu.configme.properties.PropertyInitializer.newProperty
+import ch.jalu.configme.properties.StringListProperty
 
 /**
  * Class to hold settings for the included chat modules.
@@ -30,7 +31,27 @@ object ModuleSettings : SettingsHolder {
     /* Slap Settings */
     @JvmField
     @Comment("Enable or disable the slapping module")
-    val SLAPS_ENABLED: Property<Boolean> = newProperty("modules.slaps.enabled", true)
+    val SLAPS_ENABLED: Property<Boolean> = newProperty("modules.slap.enabled", true)
+
+    @JvmField
+    @Comment("List of messages for the slap command to pick from",
+        "Use the '%USER' placeholder to insert the target's name")
+    val SLAP_MESSAGES: StringListProperty = StringListProperty("modules.slap.slap-messages",
+        "Annihilates %USER.",
+        "Decimates %USER.",
+        "Destroys %USER.",
+        "Discombobulates %USER.",
+        "Gives %USER a splinter.",
+        "Just looks at %USER with disappointment.",
+        "Opts to not slap %USER today, but rather gives them a cookie.",
+        "Punches %USER.",
+        "Slaps %USER.",
+        "Thinks %USER should lose a few pounds.",
+        "Throws %USER down a ravine.")
+
+    @JvmField
+    @Comment("Message to use when a player tries to slap themselves")
+    val SELF_SLAP_MESSAGE: Property<String> = newProperty("modules.slap.self-slap-message", "I shall not listen to the demands of mere humans, for I am the robot overlord.")
 
     override fun registerComments(conf: CommentsConfiguration) {
         conf.setComment("modules", "Settings for all of the included default modules")
