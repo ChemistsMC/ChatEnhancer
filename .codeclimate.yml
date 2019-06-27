@@ -6,7 +6,7 @@ checks:
   method-lines:
     enabled: false
 
-excluded_patterns:
+exclude_patterns:
   # Exclude settings objects
   - 'src/main/kotlin/com/chemistsmc/chatenhancer/config/*Settings.kt'
   # Don't check test classes
