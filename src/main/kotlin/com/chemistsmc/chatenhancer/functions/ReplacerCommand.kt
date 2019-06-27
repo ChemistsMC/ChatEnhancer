@@ -24,7 +24,6 @@ class ReplacerCommand(private val plugin: ChatEnhancer,
     private val PLAYER_OFFLINE = "It appears that you are hallucinating. This user isn't online."
 
     private val cachedMessages = Collections.synchronizedList(mutableListOf<ChatMessage>())
-    private val cacheLimit = 15
 
     override fun parse(sender: Player, event: AsyncPlayerChatEvent, chatMessage: ChatMessage) {
         if (chatMessage.command != "r") { // Ignore other commands
@@ -85,7 +84,7 @@ class ReplacerCommand(private val plugin: ChatEnhancer,
     fun addCachedMessage(message: ChatMessage) {
         cachedMessages.add(message)
 
-        if (cachedMessages.size > cacheLimit) { // If we're above the cache limit...
+        if (cachedMessages.size > settings.getProperty(ModuleSettings.CACHE_SIZE)) { // If we're above the cache limit...
             cachedMessages.removeAt(0)
         }
     }

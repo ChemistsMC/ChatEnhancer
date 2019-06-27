@@ -14,6 +14,8 @@ modules:
   replacer:
     # Enable or disable the text replacer module
     enabled: true
+    # Maximum number of chat messages to remember at a time
+    cache-size: 15
   slap:
     # Enable or disable the slapping module
     enabled: true

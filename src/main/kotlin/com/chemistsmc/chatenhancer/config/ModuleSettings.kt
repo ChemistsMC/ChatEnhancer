@@ -28,6 +28,10 @@ object ModuleSettings : SettingsHolder {
     @Comment("Enable or disable the text replacer module")
     val REPLACER_ENABLED: Property<Boolean> = newProperty("modules.replacer.enabled", true)
 
+    @JvmField
+    @Comment("Maximum number of chat messages to remember at a time")
+    val CACHE_SIZE: Property<Int> = newProperty("modules.replacer.cache-size", 15)
+
     /* Slap Settings */
     @JvmField
     @Comment("Enable or disable the slapping module")
