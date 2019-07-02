@@ -35,3 +35,6 @@ modules:
       - "Throws %USER down a ravine."
     # Message to use when a player tries to slap themselves
     self-slap-message: "I shall not listen to the demands of mere humans, for I am the robot overlord."
+  url-parser:
+    # Enable or disable the URL parsing module to display link titles
+    enabled: true

@@ -5,6 +5,7 @@ import com.chemistsmc.chatenhancer.config.Settings
 import com.chemistsmc.chatenhancer.functions.MentionPlayer
 import com.chemistsmc.chatenhancer.functions.ReplacerCommand
 import com.chemistsmc.chatenhancer.functions.SlapCommand
+import com.chemistsmc.chatenhancer.functions.URLParser
 import com.chemistsmc.chatenhancer.listeners.ChatListener
 import org.bukkit.ChatColor
 import org.bukkit.plugin.java.JavaPlugin
@@ -31,6 +32,7 @@ class ChatEnhancer : JavaPlugin() {
         moduleManager.loadModule(MentionPlayer(settings))
         moduleManager.loadModule(ReplacerCommand(this, settings))
         moduleManager.loadModule(SlapCommand(this, settings))
+        moduleManager.loadModule(URLParser(this, settings))
 
         // Register our chat listener
         server.pluginManager.registerEvents(ChatListener(this), this)

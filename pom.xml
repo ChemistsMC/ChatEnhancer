@@ -52,6 +52,11 @@
             <id>jitpack</id>
             <url>https://jitpack.io</url>
         </repository>
+
+        <repository>
+            <id>jcenter</id>
+            <url>http://jcenter.bintray.com/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -75,6 +80,27 @@
             <groupId>ch.jalu</groupId>
             <artifactId>configme</artifactId>
             <version>1.1.0</version>
+        </dependency>
+
+        <!-- khttp -->
+        <dependency>
+            <groupId>khttp</groupId>
+            <artifactId>khttp</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <!-- jsoup -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.12.1</version>
+        </dependency>
+
+        <!-- For URL validation -->
+        <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+            <version>1.6</version>
         </dependency>
 
         <!-- Testing -->
@@ -192,6 +218,14 @@
                         <relocation>
                             <pattern>ch.jalu.configme</pattern>
                             <shadedPattern>com.chemistsmc.chatenhancer.libs.configme</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>khttp</pattern>
+                            <shadedPattern>com.chemistsmc.chatenhancer.libs.khttp</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.jsoup</pattern>
+                            <shadedPattern>com.chemistsmc.chatenhancer.libs.jsoup</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>

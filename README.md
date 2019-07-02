@@ -12,6 +12,8 @@ Simple and extensible chat bot for Spigot/Paper Minecraft servers written in Kot
   - `.r [name] s/search/replace`
 - [x] Verbally slap other players (all in good fun, of course!)
   - `.slap Name`
+- [x] URL parsing for messages to display page title
+  - [x] Show upvotes and downvotes for Reddit posts
   
 #### Settings
 - [x] Ability to enable/disable each module
@@ -22,10 +24,6 @@ Simple and extensible chat bot for Spigot/Paper Minecraft servers written in Kot
 ChatEnhancer is designed to be extended by other plugins without too much trouble. Parts of this plugin are inspired by the [Narwhal IRC bot](https://github.com/narwhalirc/narwhal/) by JoshStrobl (especially the slap command!).
 
 ## Plans
-#### URL Parser
-- [ ] Implement URL parsing for messages to display page title
-  - [ ] Show upvotes and downvotes for Reddit posts
-  - [ ] Show video length for YouTube videos
 #### Quoting
 - [ ] Add chat quotes to a local database
   - `.quote Name` adds the last thing that player said
