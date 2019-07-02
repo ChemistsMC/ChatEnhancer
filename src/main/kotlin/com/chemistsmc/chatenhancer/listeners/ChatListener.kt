@@ -16,22 +16,24 @@ class ChatListener(private val plugin: ChatEnhancer) : Listener {
             return
         }
 
-        val command = if (event.message.startsWith(".")) { // Get the command prefix
-            val prefixEnd = event.message.indexOf(' ')
-            event.message.substring(1, prefixEnd)
+        val message = event.message
+
+        val command = if (message.startsWith(".") && message.contains(' ')) { // Possibly a command prefix
+            val prefixEnd = message.indexOf(' ')
+            message.substring(1, prefixEnd)
         } else { // No command prefix, use an empty String
             ""
         }
 
         val messageNoCmd = if (command.isNotEmpty()) { // There is a command prefix to strip
-            val prefixEnd = event.message.indexOf(' ') + 1 // Get rid of the space
-            val toTrim = event.message.substring(0, prefixEnd)
-            event.message.replace(toTrim, "").trim()
+            val prefixEnd = message.indexOf(' ') + 1 // Get rid of the space
+            val toTrim = message.substring(0, prefixEnd)
+            message.replace(toTrim, "").trim()
         } else { // No prefix, make it the full message
-            event.message
+            message
         }
 
-        val chatMessage = ChatMessage(event.player.uniqueId, command, event.message, messageNoCmd)
+        val chatMessage = ChatMessage(event.player.uniqueId, command, message, messageNoCmd)
 
         for (module in plugin.getModuleManager().getModules()) { // Iterate through all the moduleManager
             if (module is ReplacerCommand && module.isEnabled()) { // If it's the replacer command, add the message to its cache
