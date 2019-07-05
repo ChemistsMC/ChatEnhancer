@@ -3,6 +3,7 @@ package com.chemistsmc.chatenhancer
 import com.chemistsmc.chatenhancer.config.PluginSettings
 import com.chemistsmc.chatenhancer.config.Settings
 import com.chemistsmc.chatenhancer.functions.MentionPlayer
+import com.chemistsmc.chatenhancer.functions.QuoteModule
 import com.chemistsmc.chatenhancer.functions.ReplacerCommand
 import com.chemistsmc.chatenhancer.functions.SlapCommand
 import com.chemistsmc.chatenhancer.functions.URLParser
@@ -30,6 +31,7 @@ class ChatEnhancer : JavaPlugin() {
 
         // Create our default modules
         moduleManager.loadModule(MentionPlayer(settings))
+        moduleManager.loadModule(QuoteModule(this, settings))
         moduleManager.loadModule(ReplacerCommand(this, settings))
         moduleManager.loadModule(SlapCommand(this, settings))
         moduleManager.loadModule(URLParser(this, settings))

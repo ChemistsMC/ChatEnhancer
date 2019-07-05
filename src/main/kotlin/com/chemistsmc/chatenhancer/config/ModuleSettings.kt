@@ -57,9 +57,17 @@ object ModuleSettings : SettingsHolder {
     @Comment("Message to use when a player tries to slap themselves")
     val SELF_SLAP_MESSAGE: Property<String> = newProperty("modules.slap.self-slap-message", "I shall not listen to the demands of mere humans, for I am the robot overlord.")
 
+    /* URL Parser settings */
+
     @JvmField
     @Comment("Enable or disable the URL parsing module to display link titles")
     val URL_PARSER_ENABLED: Property<Boolean> = newProperty("modules.url-parser.enabled", true)
+
+    /* Quote Module settings */
+
+    @JvmField
+    @Comment("Enable or disable the quoting module")
+    val QUOTES_ENABLED: Property<Boolean> = newProperty("modules.quotes.enabled", true)
 
     override fun registerComments(conf: CommentsConfiguration) {
         conf.setComment("modules", "Settings for all of the included default modules")

@@ -38,3 +38,6 @@ modules:
   url-parser:
     # Enable or disable the URL parsing module to display link titles
     enabled: true
+  quotes:
+    # Enable or disable the quoting module
+    enabled: true
